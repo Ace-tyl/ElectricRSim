@@ -30,3 +30,12 @@
 *.exe
 *.out
 *.app
+
+# Executables in examples
+examples/*
+!examples/*.cpp
+
+# macOS System Files and VSCode Files
+.vscode
+.DS_Store
+._*
