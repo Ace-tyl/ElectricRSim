@@ -69,7 +69,7 @@ double calculate_resistance(node_t u, node_t v, vector<pair<node_t, double> > ge
             // 输出一个进度条
             printf("\rSimu Times: %d (%.2lf / %.2lf s)", simu_times, 1. * (get_current_time() - begin_t) / CPS, simu_timeout);
             fflush(stdout);
-            last_flush_t = clock();
+            last_flush_t = get_current_time();
         }
         simu_times += num_threads;
         vector<pair<node_t, double> > route[num_threads];
