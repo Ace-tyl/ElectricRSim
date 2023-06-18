@@ -35,7 +35,7 @@ time_t inline get_current_time() {
 template<typename node_t>
 double calculate_resistance(node_t u, node_t v, vector<pair<node_t, double> > get_neigh(node_t), bool progress_bar = false, double simu_timeout = 10, int steps_limit = 100000, int num_threads = 256) {
     // 进行单次随机游走的函数
-    auto get_route = [&] (vector<pair<node_t, int> >* route) {
+    auto get_route = [&] (vector<pair<node_t, double> >* route) {
         node_t cur = u;
         set<node_t> passed; passed.insert(cur);
         int steps = 0;
@@ -44,7 +44,7 @@ double calculate_resistance(node_t u, node_t v, vector<pair<node_t, double> > ge
             auto [nxt, R] = neighbors[Rand() % neighbors.size()]; // 随机选取一个相邻点
             if (passed.count(nxt)) {
                 // 如果出现环，则删除掉这个环
-                while (route->back().first != nxt) {
+                while (route->size() && route->back().first != nxt) {
                     passed.erase(route->back().first);
                     route->pop_back();
                 }
@@ -72,7 +72,7 @@ double calculate_resistance(node_t u, node_t v, vector<pair<node_t, double> > ge
             last_flush_t = clock();
         }
         simu_times += num_threads;
-        vector<pair<node_t, int> > route[num_threads];
+        vector<pair<node_t, double> > route[num_threads];
         for (int i = 0; i < num_threads; ++i) route[i].reserve(steps_limit); // 对路径数组预分配空间
         thread threads[num_threads]; // 使用多线程对随机化过程进行加速
         for (int i = 0; i < num_threads; ++i) {
